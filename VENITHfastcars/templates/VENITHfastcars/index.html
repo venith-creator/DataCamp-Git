@@ -1,4 +1,4 @@
-{% extends 'fastcars.html' %}
+{% extends 'VENITHfastcars/fastcars.html' %}
 
 {% block content %}
     <h1 class="text-center">VENITH Fast Cars</h1>
@@ -13,8 +13,8 @@
                   <h5 class="card-title">{{ product.name }}</h5>
                   <h6 class="card-subtitle mb-2 text-body-secondary">{{ product.stock }} available</h6>
                   <p class="card-text">${{ product.price }}</p>
-                  <a href="#" class="btn btn-primary mb-2">Buy Now</a><br>
-                  <a href="#" class="btn btn-outline-secondary btn-sm">View Details</a>
+                  <a href="{% url 'VENITHfastcars:buy' product.id %}" class="btn btn-primary mb-2">Buy Now</a><br>
+                  <a href="{% url 'VENITHfastcars:product_detail' product.id %}" class="btn btn-outline-secondary btn-sm">View Details</a>
                 </div>
               </div>
         </div>

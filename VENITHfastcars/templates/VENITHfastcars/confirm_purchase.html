@@ -1,0 +1,9 @@
+{% extends 'VENITHfastcars/fastcars.html' %}
+
+{% block content %}
+<div class="product-container mt-5 text-center">
+    <h2>Purchase Confirmed!</h2>
+    <p>You have successfully purchased <strong>{{ product.name }}</strong> for ${{ product.price }}.</p>
+    <a href="{% url 'VENITHfastcars:index' %}" class="btn btn-primary mt-3">Back to Products</a>
+</div>
+{% endblock %}
