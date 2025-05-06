@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>VENITH Fast Cars – Hot Offers</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f8f8f6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        header {
+            background-color: #e0e0dd;
+            padding: 30px;
+            text-align: center;
+            border-bottom: 1px solid #ccc;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: #2c2c2c;
+        }
+
+        header p {
+            margin-top: 10px;
+            color: #666;
+            font-style: italic;
+        }
+
+        .offers-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 40px;
+            gap: 30px;
+        }
+
+        .offer-card {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+            width: 300px;
+            overflow: hidden;
+            transition: transform 0.2s ease;
+        }
+
+        .offer-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .offer-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .offer-content {
+            padding: 20px;
+        }
+
+        .offer-code {
+            font-weight: bold;
+            color: #3a3a3a;
+            font-size: 1.1em;
+        }
+
+        .offer-description {
+            margin: 10px 0;
+            color: #555;
+        }
+
+        .offer-discount {
+            color: #1a936f;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .offer-product {
+            color: #777;
+            margin-top: 8px;
+        }
+
+        .exclusive-tag {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #999;
+        }
+
+        .login-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #1a936f;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            border: none; /* *** Added to support button element styling */
+            cursor: pointer; /* *** Makes button clickable */
+        }
+
+        .login-btn:hover {
+            background-color: #157a5c;
+        }
+    </style>
+
+    <!-- *** Change: Link your external CSS file here -->
+    <link rel="stylesheet" href="styles.css"> <!-- Adjust the path if needed -->
+
+</head>
+<body>
+
+<header>
+    <h1>VENITH Fast Cars – Hot Offers</h1>
+    <p>Available only to our valued customers. Hot rides, hotter deals.</p>
+
+    {% if user.is_authenticated %}
+        <!-- *** Change: Updated logout URL -->
+        <form action="{% url 'user_logout' %}" method="post" style="margin-top: 15px;">
+            {% csrf_token %}
+            <button type="submit" class="login-btn">Logout</button>
+        </form>
+    {% endif %}
+</header>
+
+<div class="offers-container">
+    {% if user.is_authenticated %}
+        {% for offer in offers %}
+            <div class="offer-card">
+                <img src="{{ offer.product.image_url }}" alt="{{ offer.product.name }}">
+                <div class="offer-content">
+                    <div class="offer-code">Offer Code: {{ offer.code }}</div>
+                    <div class="offer-description">{{ offer.description }}</div>
+                    <div class="offer-discount">Save {{ offer.discount_percentage|floatformat:0 }}%</div>
+                    <div class="offer-product">On: {{ offer.product.name }}</div>
+                    <div style="text-align: center; margin-top: 15px;">
+                        <!-- *** Change: Updated logout URL -->
+                        <form action="{% url 'user_logout' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="login-btn">Logout</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>No offers available yet.</p>
+        {% endfor %}
+    {% else %}
+        <p style="text-align:center;">Please <a href="{% url 'login' %}" class="login-btn">log in</a> to view our hot offers.</p>
+    {% endif %}
+</div>
+
+<div class="exclusive-tag">
+    Offers are only valid for previous buyers. Make your first move to unlock them.
+</div>
+
+</body>
+</html>

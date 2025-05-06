@@ -1,7 +1,9 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Product, ContactMessage
+from .models import Product, ContactMessage, Offer
 from .forms import ContactForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 
 
 def index(request):
@@ -46,3 +48,13 @@ def confirm_purchase(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
     print(product)
     return render(request, 'VENITHfastcars/confirm_purchase.html', {'product':product})
+
+
+@login_required(login_url='login')
+def offer_list(request):
+    offers = Offer.objects.all()
+    return render(request, 'VENITHfastcars/offers.html', {'offers': offers})
+
+def logout_view(request):
+    logout(request)
+    return redirect('home')

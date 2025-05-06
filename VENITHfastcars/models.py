@@ -10,10 +10,18 @@ class Product(models.Model):
     description = models.TextField(blank=True)
 
 
-class offer(models.Model):
+class Offer(models.Model):
     code = models.CharField(max_length=15)
     description = models.CharField(max_length=260)
     discount = models.FloatField()
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.code
+    
+    @property
+    def discount_percentage(self):
+        return self.discount * 100
 
 
 class ContactMessage(models.Model):
